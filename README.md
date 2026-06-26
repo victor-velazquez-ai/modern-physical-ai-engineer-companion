@@ -37,13 +37,13 @@ so plainly.
 | Chapter | Folder | What it runs | `physicalai` module |
 |---|---|---|---|
 | Core | `physicalai/` | the toy env, policy interfaces, eval harness (offline) | `envs`, `policies`, `eval` |
-| 16 — Imitation build | `chapters/ch16-imitation/` | behavior cloning + action chunking on the toy env *(cycle 2)* | `physicalai.policies` |
-| 20 — RL build | `chapters/ch20-rl/` | a tiny policy-gradient control demo *(cycle 2)* | `physicalai.policies` |
+| 16 — Imitation build | `chapters/ch16-imitation/` | behavior cloning + the covariate-shift gap (ID vs OOD) | `physicalai.policies` |
+| 20 — RL build | `chapters/ch20-rl/` | tabular Q-learning control on GridWorld (a learning curve) | `physicalai.rl` |
 | 36 — Fine-tune a VLA | `chapters/ch36-vla-finetune/` | LoRA structure + a BYO-key VLM-as-policy path *(cycle 3)* | `physicalai.policies` |
 | 42 — Capstone | `capstone/` | perception → policy → execution → eval, end to end *(cycle 3)* | all |
 
-*(Folders marked with a cycle are added in the noted build cycle; the core library and its tests
-are complete now.)*
+*(Folders marked with a cycle are added in the noted build cycle; the core library, the imitation
+and RL builds, and their tests are complete now — `make test` is green offline.)*
 
 ## Quickstart
 
