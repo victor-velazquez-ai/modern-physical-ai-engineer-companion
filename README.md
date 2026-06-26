@@ -39,11 +39,12 @@ so plainly.
 | Core | `physicalai/` | the toy env, policy interfaces, eval harness (offline) | `envs`, `policies`, `eval` |
 | 16 — Imitation build | `chapters/ch16-imitation/` | behavior cloning + the covariate-shift gap (ID vs OOD) | `physicalai.policies` |
 | 20 — RL build | `chapters/ch20-rl/` | tabular Q-learning control on GridWorld (a learning curve) | `physicalai.rl` |
-| 36 — Fine-tune a VLA | `chapters/ch36-vla-finetune/` | LoRA structure + a BYO-key VLM-as-policy path *(cycle 3)* | `physicalai.policies` |
-| 42 — Capstone | `capstone/` | perception → policy → execution → eval, end to end *(cycle 3)* | all |
+| 36 — Fine-tune a VLA | `chapters/ch36-vla-finetune/` | LoRA structure + a BYO-key VLM-as-policy path (oracle fallback) | `physicalai.policies` |
+| 42 — Capstone | `capstone/` | perception → policy → execution → eval, end to end (`make capstone`) | all |
 
-*(Folders marked with a cycle are added in the noted build cycle; the core library, the imitation
-and RL builds, and their tests are complete now — `make test` is green offline.)*
+*Everything above runs offline with `make test` / `make demo` / `make ch16` / `make ch20` /
+`make ch36` / `make capstone` — no GPU and no API key. The real MuJoCo / LeRobot / VLA training and
+the cloud-VLM brain activate when you install the extras and supply a key (see `docs/SETUP.md`).*
 
 ## Quickstart
 

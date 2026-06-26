@@ -56,10 +56,15 @@ class TabletopEnv:
     _state: TabletopState | None = field(default=None, repr=False)
 
     # --- core gym-like API -------------------------------------------------------------
-    def reset(self, seed: int = 0) -> dict:
+    def reset(self, seed: int = 0, goal_color: str | None = None,
+              goal_target: str | None = None) -> dict:
+        """Reset to a deterministic layout. Optionally force the goal (color, target) — used by the
+        capstone to honor a user-supplied instruction; the requested block is guaranteed to exist."""
         rng = random.Random(seed)
         size = self.grid_size if not self.ood else self.grid_size + 2
         colors = list(TRAIN_COLORS if not self.ood else TRAIN_COLORS + (OOD_COLORS[0],))
+        if goal_color and goal_color not in colors:
+            colors.append(goal_color)
         n_blocks = len(colors) if self.ood else 2
 
         cells = [(c, r) for c in range(size) for r in range(size)]
@@ -68,11 +73,15 @@ class TabletopEnv:
 
         gripper = next(pos)
         chosen = colors[:n_blocks]
+        if goal_color and goal_color not in chosen:
+            chosen[-1] = goal_color  # ensure the requested block is on the table
         blocks = {color: next(pos) for color in chosen}
         targets = {name: next(pos) for name in TARGETS}
 
-        goal_color = rng.choice(chosen)
-        goal_target = rng.choice(TARGETS)
+        if goal_target and goal_target not in TARGETS:
+            raise ValueError(f"unknown target {goal_target!r}; choose from {TARGETS}")
+        goal_color = goal_color or rng.choice(chosen)
+        goal_target = goal_target or rng.choice(TARGETS)
 
         self._state = TabletopState(
             grid_size=size, gripper=gripper, holding=None, blocks=blocks,

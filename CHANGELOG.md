@@ -38,6 +38,18 @@
   the ID>OOD covariate-shift gap, more demos help, featurize is context-aware; GridWorld is
   deterministic and rewards the goal; Q-learning reaches the goal nearly always and its curve rises.
 
-### Coming next
-- Cycle 3 — `chapters/ch36-vla-finetune/` (LoRA structure + a BYO-key VLM-as-policy path) and the
-  `capstone/` (perception → policy → execution → eval, `make capstone`, offline end-to-end).
+## Cycle 3 — the VLA path and the capstone (offline-safe)
+- **`physicalai.policies.VLMPolicy`** — a cloud vision-language model used as a high-level policy
+  (Ch 36): describes the scene in text, asks Claude/GPT for the next action (LAZY SDK import, key
+  from env), parses the reply. On no key / no SDK / unparseable reply it **falls back to the
+  oracle**, so it always runs and CI stays offline-green.
+- **ch36 — VLA fine-tune** (`chapters/ch36-vla-finetune/`, `make ch36`): README documents the real
+  LoRA-on-OpenVLA/π0 + LeRobot path (the `[vla]` extra, a GPU); `reproduce.py` runs the offline-safe
+  `VLMPolicy` over a few seeds (oracle fallback without a key), honest about what runs where.
+- **The capstone** (`capstone/`, `make capstone`): `RobotSystem` = perception → pluggable policy →
+  execution (receding horizon) → honest eval. `python -m capstone.run "put the blue block on the
+  plate"` narrates perception + the executed trajectory + the outcome, then scores 50 seeds.
+  `TabletopEnv.reset` gained a goal override so a user instruction is honored.
+- **18 offline tests pass** (`make test`): + VLMPolicy falls back and solves with no key, describe()
+  renders the scene, the capstone runs end to end, honors a requested goal, and evaluates honestly.
+- Full offline surface: `make test / demo / ch16 / ch20 / ch36 / capstone` — no GPU, no key.
