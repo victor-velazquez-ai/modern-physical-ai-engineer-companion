@@ -1,0 +1,36 @@
+[project]
+name = "physicalai"
+version = "0.1.0"
+description = "Modern Physical AI Engineer — companion library: simulation-first VLA / robot-learning building blocks."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Victor B." }]
+
+# The OFFLINE CORE has no heavy dependencies — the toy TabletopEnv, the policy
+# interfaces, and the eval harness run on the standard library alone, so the
+# whole pedagogical surface is importable and testable without a GPU.
+dependencies = []
+
+[project.optional-dependencies]
+# The real simulation + training stack (needs a GPU and the toolchain of Appendix A).
+sim = ["mujoco>=3.0", "gymnasium>=1.0", "numpy>=1.26"]
+# Real imitation / VLA policies (LeRobot, PyTorch). GPU recommended.
+vla = ["torch>=2.2", "lerobot"]
+# Bring-your-own-key cloud VLM acting as a high-level "policy" (Ch 36 BYO-API path).
+api = ["anthropic>=0.40", "openai>=1.50"]
+dev = ["pytest", "ruff"]
+all = ["physicalai[sim,vla,api,dev]"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["physicalai"]
