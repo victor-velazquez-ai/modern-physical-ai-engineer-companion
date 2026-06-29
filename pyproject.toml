@@ -5,7 +5,7 @@ description = "Modern Physical AI Engineer — companion library: simulation-fir
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "Victor B." }]
+authors = [{ name = "Victor Miguel Velazquez Espitia" }]
 
 # The OFFLINE CORE has no heavy dependencies — the toy TabletopEnv, the policy
 # interfaces, and the eval harness run on the standard library alone, so the
